@@ -1,37 +1,24 @@
 //your code here!
-// Get the list container
-const listContainer = document.getElementById('list');
+document.addEventListener("DOMContentLoaded", () => {
+    const list = document.getElementById("infinite-list");
 
-// Function to create and add a new list item
-function addListItem(content) {
-    const listItem = document.createElement('li');
-    listItem.textContent = content;
-    listContainer.appendChild(listItem);
-}
-
-// Initialize the list with 10 items by default
-function initializeList() {
-    for (let i = 1; i <= 10; i++) {
-        addListItem(`Item ${i}`);
+    // Function to add a specified number of items to the list
+    function addItems(count) {
+        for (let i = 0; i < count; i++) {
+            const listItem = document.createElement("li");
+            listItem.textContent = `List Item ${list.children.length + 1}`;
+            list.appendChild(listItem);
+        }
     }
-}
 
-// Add 2 more items when the user scrolls to the bottom
-function addMoreItems() {
-    const currentItemCount = listContainer.children.length;
-    addListItem(`Item ${currentItemCount + 1}`);
-    addListItem(`Item ${currentItemCount + 2}`);
-}
+    // Initially add 10 items
+    addItems(10);
 
-// Infinite scroll function
-function handleScroll() {
-    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight - 5) {
-        addMoreItems();
-    }
-}
-
-// Initial setup
-initializeList();
-window.addEventListener('scroll', handleScroll);
-
+    // Event listener to detect when the user scrolls to the bottom of the list
+    list.addEventListener("scroll", () => {
+        if (list.scrollTop + list.clientHeight >= list.scrollHeight) {
+            // Add 2 more items when reaching the end of the list
+            addItems(2);
+        }
+    });
+});
